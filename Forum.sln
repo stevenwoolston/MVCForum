@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Forum.Web", "Forum.Web\Forum.Web.csproj", "{02A95C8E-1196-41E8-B41D-7E304A316697}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Forum.Database", "Forum.Database\Forum.Database.sqlproj", "{710BFA29-B283-4E9D-B5EE-872927F9C5BD}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://alstribology.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Forum.Web\\Forum.Web.csproj
+		SccProjectName1 = Forum.Web
+		SccLocalPath1 = Forum.Web
+		SccProjectUniqueName2 = Forum.Database\\Forum.Database.sqlproj
+		SccProjectName2 = Forum.Database
+		SccLocalPath2 = Forum.Database
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{02A95C8E-1196-41E8-B41D-7E304A316697}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02A95C8E-1196-41E8-B41D-7E304A316697}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02A95C8E-1196-41E8-B41D-7E304A316697}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02A95C8E-1196-41E8-B41D-7E304A316697}.Release|Any CPU.Build.0 = Release|Any CPU
+		{710BFA29-B283-4E9D-B5EE-872927F9C5BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{710BFA29-B283-4E9D-B5EE-872927F9C5BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{710BFA29-B283-4E9D-B5EE-872927F9C5BD}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{710BFA29-B283-4E9D-B5EE-872927F9C5BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{710BFA29-B283-4E9D-B5EE-872927F9C5BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{710BFA29-B283-4E9D-B5EE-872927F9C5BD}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

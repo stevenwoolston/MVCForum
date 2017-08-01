@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ForumModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ForumModelStoreContainer">
+          <EntitySet Name="Item" EntityType="ForumModel.Store.Item" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Topic" EntityType="ForumModel.Store.Topic" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TopicStatus" EntityType="ForumModel.Store.TopicStatus" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TopicUserAudit" EntityType="ForumModel.Store.TopicUserAudit" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Topic_Item" Association="ForumModel.Store.FK_Topic_Item">
+            <End Role="Topic" EntitySet="Topic" />
+            <End Role="Item" EntitySet="Item" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Topic_Status" Association="ForumModel.Store.FK_Topic_Status">
+            <End Role="TopicStatus" EntitySet="TopicStatus" />
+            <End Role="Topic" EntitySet="Topic" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Comment" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="TopicID" Type="int" Nullable="false" />
+          <Property Name="DocumentID" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Topic">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="nvarchar" Nullable="false" MaxLength="500" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="StatusID" Type="int" Nullable="false" />
+          <Property Name="DocumentID" Type="nvarchar" MaxLength="500" />
+          <Property Name="SpareField" Type="nvarchar" MaxLength="500" />
+          <Property Name="BugTicketId" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TopicStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TopicUserAudit">
+          <Key>
+            <PropertyRef Name="TopicID" />
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="TopicID" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Topic_Item">
+          <End Role="Topic" Type="ForumModel.Store.Topic" Multiplicity="1" />
+          <End Role="Item" Type="ForumModel.Store.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="TopicID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Topic_Status">
+          <End Role="TopicStatus" Type="ForumModel.Store.TopicStatus" Multiplicity="1" />
+          <End Role="Topic" Type="ForumModel.Store.Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TopicStatus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Topic">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="proc_Add_Item" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TopicID" Type="int" Mode="In" />
+          <Parameter Name="Comment" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="DocumentID" Type="nvarchar" Mode="In" />
+          <Parameter Name="CreatedBy" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="proc_Add_Topic" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Title" Type="nvarchar" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="DocumentID" Type="nvarchar" Mode="In" />
+          <Parameter Name="CreatedBy" Type="nvarchar" Mode="In" />
+          <Parameter Name="SpareField" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="proc_Get_Topic" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TopicID" Type="int" Mode="In" />
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="proc_List_Topics" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="proc_List_TopicUserAudit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TopicID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="proc_Update_Topic" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TopicID" Type="int" Mode="In" />
+          <Parameter Name="Title" Type="nvarchar" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="BugTicketId" Type="nvarchar" Mode="In" />
+          <Parameter Name="DocumentID" Type="nvarchar" Mode="In" />
+          <Parameter Name="SpareField" Type="nvarchar" Mode="In" />
+          <Parameter Name="StatusID" Type="int" Mode="In" />
+          <Parameter Name="IsActive" Type="bit" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ForumModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="ForumEntities" p1:LazyLoadingEnabled="true">
+          <FunctionImport Name="List_Topic" ReturnType="Collection(ForumModel.getTopicById)" >
+          <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Add_Topic">
+            <Parameter Name="Title" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="DocumentID" Mode="In" Type="String" />
+            <Parameter Name="CreatedBy" Mode="In" Type="String" />
+            <Parameter Name="SpareField" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Add_Item">
+            <Parameter Name="TopicID" Mode="In" Type="Int32" />
+            <Parameter Name="Comment" Mode="In" Type="String" />
+            <Parameter Name="DocumentID" Mode="In" Type="String" />
+            <Parameter Name="CreatedBy" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Update_Topic">
+            <Parameter Name="TopicID" Mode="In" Type="Int32" />
+            <Parameter Name="Title" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="BugTicketId" Mode="In" Type="String" />
+            <Parameter Name="DocumentID" Mode="In" Type="String" />
+            <Parameter Name="SpareField" Mode="In" Type="String" />
+            <Parameter Name="StatusID" Mode="In" Type="Int32" />
+            <Parameter Name="IsActive" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="Get_Topic_By_ID" ReturnType="Collection(ForumModel.getTopicById)">
+            <Parameter Name="TopicID" Mode="In" Type="Int32" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="List_TopicUserAudit" ReturnType="Collection(ForumModel.ListTopicUserAudit)">
+          <Parameter Name="TopicID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Items" EntityType="ForumModel.Item" />
+          <EntitySet Name="Topics" EntityType="ForumModel.Topic" />
+          <EntitySet Name="TopicStatus" EntityType="ForumModel.TopicStatu" />
+          <EntitySet Name="TopicUserAudits" EntityType="ForumModel.TopicUserAudit" />
+          <AssociationSet Name="FK_Topic_Item" Association="ForumModel.FK_Topic_Item">
+            <End Role="Topic" EntitySet="Topics" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Topic_Status" Association="ForumModel.FK_Topic_Status">
+            <End Role="TopicStatu" EntitySet="TopicStatus" />
+            <End Role="Topic" EntitySet="Topics" />
+          </AssociationSet>
+          </EntityContainer>
+        <ComplexType Name="proc_List_Topics_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="500" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="getTopicById">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="Description" Nullable="false" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="StatusID" Nullable="false" />
+          <Property Type="String" Name="StatusName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="TotalItems" Nullable="true" />
+          <Property Type="Int32" Name="TotalUnreadItems" Nullable="true" />
+          <Property Type="String" Name="Summary" Nullable="true" />
+          <Property Type="String" Name="DocumentID" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="SpareField" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="BugTicketId" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="ListTopicUserAudit" >
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="LastViewed" Nullable="true" Precision="23" />
+        </ComplexType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Comment" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="TopicID" Nullable="false" />
+          <Property Type="String" Name="DocumentID" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Topic" Relationship="ForumModel.FK_Topic_Item" FromRole="Item" ToRole="Topic" />
+        </EntityType>
+        <EntityType Name="Topic">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="StatusID" Nullable="false" />
+          <Property Type="String" Name="DocumentID" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="SpareField" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Items" Relationship="ForumModel.FK_Topic_Item" FromRole="Topic" ToRole="Item" />
+          <NavigationProperty Name="TopicStatu" Relationship="ForumModel.FK_Topic_Status" FromRole="Topic" ToRole="TopicStatu" />
+          <Property Type="String" Name="BugTicketId" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TopicStatu">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsActive" Nullable="false" />
+          <NavigationProperty Name="Topics" Relationship="ForumModel.FK_Topic_Status" FromRole="TopicStatu" ToRole="Topic" />
+        </EntityType>
+        <EntityType Name="TopicUserAudit">
+          <Key>
+            <PropertyRef Name="TopicID" />
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Type="Int32" Name="TopicID" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="FK_Topic_Item">
+          <End Type="ForumModel.Topic" Role="Topic" Multiplicity="1" />
+          <End Type="ForumModel.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Topic">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="TopicID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Topic_Status">
+          <End Type="ForumModel.TopicStatu" Role="TopicStatu" Multiplicity="1" />
+          <End Type="ForumModel.Topic" Role="Topic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TopicStatu">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Topic">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ForumModelStoreContainer" CdmEntityContainer="ForumEntities">
+          <FunctionImportMapping FunctionImportName="List_Topic" FunctionName="ForumModel.Store.proc_List_Topics">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ForumModel.getTopicById">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="TotalItems" ColumnName="TotalItems" />
+                <ScalarProperty Name="TotalUnreadItems" ColumnName="TotalUnreadItems" />
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="SpareField" ColumnName="SpareField" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Add_Topic" FunctionName="ForumModel.Store.proc_Add_Topic" />
+          <FunctionImportMapping FunctionImportName="Add_Item" FunctionName="ForumModel.Store.proc_Add_Item" />
+          <FunctionImportMapping FunctionImportName="Update_Topic" FunctionName="ForumModel.Store.proc_Update_Topic" />
+          <FunctionImportMapping FunctionImportName="Get_Topic_By_ID" FunctionName="ForumModel.Store.proc_Get_Topic">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ForumModel.getTopicById">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="TotalItems" ColumnName="TotalItems" />
+                <ScalarProperty Name="TotalUnreadItems" ColumnName="TotalUnreadItems" />
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="SpareField" ColumnName="SpareField" />
+                <ScalarProperty Name="BugTicketId" ColumnName="BugTicketId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="List_TopicUserAudit" FunctionName="ForumModel.Store.proc_List_TopicUserAudit" >
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ForumModel.ListTopicUserAudit">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="LastViewed" ColumnName="LastViewed" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="ForumModel.Item">
+              <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="TopicID" ColumnName="TopicID" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Topics">
+            <EntityTypeMapping TypeName="ForumModel.Topic">
+              <MappingFragment StoreEntitySet="Topic">
+                <ScalarProperty Name="BugTicketId" ColumnName="BugTicketId" />
+                <ScalarProperty Name="SpareField" ColumnName="SpareField" />
+                <ScalarProperty Name="DocumentID" ColumnName="DocumentID" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TopicStatus">
+            <EntityTypeMapping TypeName="ForumModel.TopicStatu">
+              <MappingFragment StoreEntitySet="TopicStatus">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TopicUserAudits">
+            <EntityTypeMapping TypeName="ForumModel.TopicUserAudit">
+              <MappingFragment StoreEntitySet="TopicUserAudit">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="TopicID" ColumnName="TopicID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams />
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,49 @@
+﻿@model Forum.Web.ViewModels.TopicItemViewModel
+
+@{
+    Layout = null;
+}
+
+<table class="table table-striped table-bordered datatable">
+    <thead>
+        <tr>
+            <th class="span2 btn-info">Date Created</th>
+            <th class="span8 btn-info">Comment</th>
+            <th class="span2 btn-info">Created By</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.TopicItems.Count() == 0)
+            {
+            <tr>
+                <td colspan="3"><center>There are no comments.</center></td>
+            </tr>
+            }
+            else
+            {
+                foreach (var item in Model.TopicItems)
+                {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+                <td>@Html.Raw(HttpUtility.HtmlDecode(item.Comment))</td>
+                <td>@Html.DisplayFor(modelItem => item.CreatedBy)</td>
+            </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+@section Scripts {
+<script>
+    $(function () {
+        var dataTable = $(".datatable").dataTable({
+            "sPaginationType": "full_numbers",
+            "bProcessing": true,
+            "bServerSide": false,
+            "sDom": 'RC<"clear">lfrtip'
+        });
+        $(".ColVis_Button").addClass("hide");
+    });
+</script>
+}

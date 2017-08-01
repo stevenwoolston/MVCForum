@@ -1,0 +1,20 @@
+﻿@model Forum.Web.ViewModels.CreateItemViewModel
+
+@using (Html.BeginForm("Create", "Item", new { id = "searchForm" }))
+{
+    @Html.ValidationSummary(true)
+        
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>Add a Comment</h3>
+    </div>
+    <div class="modal-body">
+        <textarea id="comment" name="comment" class="richtext span11"></textarea>
+        @Html.Hidden("TopicID", Model.TopicID)
+    </div>
+    <div class="modal-footer">
+
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <button id="btn-new-item" class="btn btn-primary">Save changes</button>
+    </div>
+}

@@ -1,0 +1,150 @@
+html {
+    background-color: #e2e2e2;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #eee;
+    margin: 0;
+    padding: 0;
+	box-sizing: border-box;
+}
+
+/*  Global Formatting */
+h1, h1 a,
+h2, h2 a,
+h3, h3 a,
+h4, h4 a,
+h5, h5 a {
+    font-weight: bold;
+}
+
+a.btn-link:link, a.btn-link:active, a.btn-link:visited {
+    color: #1006f7;
+    text-decoration: underline;
+}
+a.btn-link:hover {
+    color: #ff0000;
+    text-decoration: none;
+}
+/*  End Global Formatting */
+
+.header-container {
+    margin-bottom: 10px;
+}
+.title-container {
+    padding-top: 40px;
+}
+.control-container{
+    margin-bottom: 10px;
+}
+.page-wrap {
+    background-color: #ffffff;
+    padding: 20px 20px 30px 20px;
+    margin-bottom: 30px;
+}
+.richtext {
+    height: 200px;
+}
+/*  Footer */
+footer {
+    clear: both;
+    background-color: #e2e2e2;
+    border-top: #808080;
+    font-size: .8em;
+    height: 100px;
+}
+
+
+/*  Helpers */
+.padleft {
+    margin-left: 5px;
+}
+.padright {
+    margin-right: 5px;
+}
+/*  End Helpers */
+
+/*	DataTable */
+.dataTable {
+	margin-bottom: 10px;
+}
+.dataTables_filter input[type=text] {
+	width: 150px;
+}
+.dataTables_length {
+	float: left;
+}
+.dataTables_length select {
+	width: 80px;
+}
+.dataTables_filter {
+	float: right;
+	text-align: right;
+}
+.dataTables_processing {
+	display: none;
+}
+.dataTables_info {
+	clear: both;
+	float: left;
+}
+div.dataTables_paginate {
+	float: right;
+	margin: 0;
+	text-align: right;
+}
+.paging_full_numbers a {
+	padding: 5px 10px;
+	border: 1px solid #dcdcdc;
+	background-color: #49afcd;
+	color: #edf7fd;
+}
+.paging_full_numbers a.paginate_active {
+	padding: 5px 10px;
+	background-color: #dcdcdc;
+	border: 1px solid #36ba48;
+	color: black;
+}
+
+.dataTable thead .sorting, .dataTable thead .sorting_asc, .dataTable thead .sorting_desc, 
+	.dataTable thead .sorting_asc_disabled, .dataTable thead .sorting_desc_disabled,
+	a.paginate_button {
+	cursor: pointer;
+}
+table.dataTable thead .sorting {
+    background-image: url('/images/datatables/sort_both.png');
+	background-repeat: no-repeat;
+	background-position: center right !important;
+}
+table.dataTable thead .sorting_asc {
+    background-image: url('/images/datatables/sort_asc.png');
+	background-repeat: no-repeat;
+	background-position: center right !important;
+}
+table.dataTable thead .sorting_desc {
+    background-image: url('/images/datatables/sort_desc.png');
+	background-repeat: no-repeat;
+	background-position: center right !important;
+}
+table.dataTable thead .sorting_asc_disabled {
+    background-image: url('/images/datatables/sort_asc_disabled.png');
+	background-repeat: no-repeat;
+	background-position: center right !important;
+}
+table.dataTable thead .sorting_desc_disabled {
+    background-image: url('/images/datatables/sort_desc_disabled.png');
+	background-repeat: no-repeat;
+	background-position: center right !important;
+}
+td.dataTables_empty {
+	text-align: center;
+}
+/* End DataTable */
+
+/*	Bootstrap Override */
+.control-group {
+	margin-bottom: 5px;
+}
+/*	End Bootstrap Override */

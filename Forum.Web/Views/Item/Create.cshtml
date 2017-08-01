@@ -1,0 +1,117 @@
+﻿@model Forum.Web.ViewModels.CreateItemViewModel
+
+@{
+    ViewBag.Title = Resources.Item.Create.PageTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<ul class="breadcrumb">
+    <li><a href="/">@Resources.Item.Create.BreadcrumbHome</a> <span class="divider">/</span></li>
+    <li><a href="/home/Details/@Model.TopicID">@Resources.Item.Create.BreadcrumbPreviousPage</a> <span class="divider">/</span></li>
+    <li class="active">@ViewBag.Title</li>
+</ul>
+
+<div class="page-wrap">
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            <div class="row-fluid">
+                <div class="span2">
+                    <a href="/home/details/@Model.TopicID">&laquo;&nbsp;@Resources.Item.Create.BreadcrumbPreviousPage</a>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span2">
+                    @Html.LabelFor(model => model.TopicTitle, new { @class = "control-label" })
+                </div>
+
+                <div class="span10 content-data">
+                    @Html.DisplayFor(model => model.TopicTitle, new { @class = "span11" })
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span2">
+                    @Html.LabelFor(model => model.TopicDescription, new { @class = "control-label" })
+                </div>
+
+                <div class="span10 content-data">
+                    @Html.Raw(HttpUtility.HtmlDecode(Model.TopicDescription))
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="control-group row-fluid">
+                <div class="span2">
+                    <label class="control-label fields" for="unitid">@Resources.Item.Create.LabelUploadDoc</label>
+                </div>
+
+                <div class="controls span10">
+                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                        <span class="btn btn-file" title="@Resources.Item.Create.TooltipUploadButton">
+                            <span class="fileupload-new">@Resources.Item.Create.LabelSelectFile</span>
+                            <span class="fileupload-exists">@Resources.Item.Create.LabelChangeFile</span><input name="DocumentID" type="file" /></span>
+                        <span class="fileupload-preview"></span>
+                        <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">×</a>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.DocumentID)
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Comment, new { @class = "control-label" })
+                </div>
+
+                <div class="controls editor-field">
+                    @Html.TextAreaFor(model => model.Comment, new { @class = "span11 richtext" })
+                    @Html.ValidationMessageFor(model => model.Comment)
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <div class="pull-right">
+                    <input type="reset" value="Reset" class="btn-link" />&nbsp;&nbsp;
+                    <a href="/home/details/@Model.TopicID" class="btn" title="Return to the Thread">@Resources.Item.Create.ButtonCancel</a>&nbsp;&nbsp;
+                    <input type="submit" class="btn btn-primary" value="@Resources.Item.Create.ButtonSave" />
+                </div>
+            </div>
+
+        </fieldset>
+    }
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/js/jqueryval")
+    <script src="~/Scripts/uploadValidation.js"></script>
+    <script>
+        $(function () {
+
+            var totalerrors = $(".input-validation-error").length;
+            if (totalerrors == 0) {
+                $("#Comment").focus();
+            } else {
+                $(".input-validation-error:first").focus();
+            }
+            $(".richtext").wysihtml5({
+                "font-styles": false,
+                "emphasis": true,
+                "lists": true,
+                "html": false,
+                "link": true,
+                "color": false,
+                "image": false
+            });
+
+            $("[title]").tooltip();
+            $(".content-data a").attr("target", "_blank");
+        });
+    </script>
+}

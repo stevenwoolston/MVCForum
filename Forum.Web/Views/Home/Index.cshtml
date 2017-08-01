@@ -1,0 +1,101 @@
+﻿@model List<Forum.Web.ViewModels.TopicViewModel>
+
+@{
+    ViewBag.Title = "List All Threads";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Styles.Render("~/css/dataTables")
+<ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+</ul>
+
+<div class="page-wrap">
+
+    <div class="control-container">
+        <a href="/home/create/" class="btn btn-primary">@Resources.Home.Index.btnNewThread</a>
+    </div>
+
+    <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatable">
+        <thead>
+            <tr>
+                <th role="columnheader" class="span2 btn-info">@Resources.Home.Index.colCreated</th>
+                <th role="columnheader" class="span2 btn-info">@Resources.Home.Index.colThreadTitle</th>
+                <th role="columnheader" class="span4 btn-info">@Resources.Home.Index.colThreadComment</th>
+                <th role="columnheader" class="span2 btn-info">@Resources.Home.Index.colThreadStatus</th>
+                <th role="columnheader" class="span2 btn-info">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                string rowclass;
+                string badgeclass;
+                foreach (var topicViewModel in Model)
+                {
+                    if (topicViewModel.TotalUnreadItems > 0)
+                    {
+                        rowclass = "error";
+                        badgeclass = "badge-important";
+                    }
+                    else
+                    {
+                        rowclass = "";
+                        badgeclass = "hide";
+                    }
+                <tr class="@rowclass">
+                    <td>@topicViewModel.CreatedDate</td>
+                    <td><a href="/home/details/@topicViewModel.ID" title="@Resources.Home.Index.TitleTooltip">@topicViewModel.Title</a>
+                        <span title="@String.Format(@Resources.Home.Index.UnreadCommentsBadge, @topicViewModel.TotalUnreadItems)" class="padleft badge @badgeclass">@topicViewModel.TotalUnreadItems</span>
+                    </td>
+                    <td class="content-data">@Html.Raw(HttpUtility.HtmlDecode(topicViewModel.Summary))</td>
+                    <td>@topicViewModel.StatusName</td>
+                    <td>
+                        @{
+                    if (topicViewModel.CanEditItem)
+                    {
+                            <a href="/home/edit/@topicViewModel.ID" title="@Resources.Home.Index.CanEditTooltip" class="btn">Edit</a>
+                    }
+                        }
+                        <a href="/item/create/@topicViewModel.ID" title="@String.Format(Resources.Home.Index.AddCommentTooltip, topicViewModel.TotalItems)" class="btn">Add Comment</a>
+                    </td>
+                </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts {
+    @Scripts.Render("~/js/dataTables")
+    <script>
+        $(function () {
+            var dataTable = $(".datatable").dataTable({
+                "sPaginationType": "full_numbers",
+                "bProcessing": true,
+                "bServerSide": false,
+                "sDom": 'RC<"clear">lfrtip',
+                "aaSorting": [[0, "desc"]],
+                "aoColumnDefs": [
+                    { "bSortable": false, "aTargets": [4] }
+                ],
+                "oColVis": {
+                    "aiExclude": [4]
+                }
+            });
+            $(".ColVis_Button").addClass("btn").text("Show / Hide Columns").css({ "margin-left": "5px" });
+
+            $("[title]").tooltip();
+            $(".content-data a").attr("target", "_blank");
+
+            var page_length = $.cookie("dataTables_Default_Length");
+            if (page_length == undefined) {
+                page_length = 10;
+            }
+            $(".dataTables_length label select").val(page_length).trigger("change");
+            $(".dataTables_length label select").change(function () {
+                page_length = $(this).val();
+                $.cookie("dataTables_Default_Length", page_length);
+            });
+
+        });
+    </script>
+}

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - @Resources.Global.Title</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/css/bootstrap")
+    @Styles.Render("~/css/tools")
+    @Styles.Render("~/css/datatables")
+    @Scripts.Render("~/js/modernizr")
+<!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="/Content/ie-only.css" />
+<![endif]-->
+</head>
+<body>
+    <div class="container-fluid header-container">
+        <div class="row-fluid">
+            <div class="logo-container span2">
+                <img src="/images/header-logo.png" alt="ALS Logo" />
+            </div>
+            <div class="title-container span5">
+                <h1>@Html.ActionLink(@Resources.Global.Title, "Index", "Home")</h1>
+            </div>
+            <div class="span5 title-container text-right">
+                <input id="q" type="text" class="input-small" placeholder="ID Search" />
+                <button class="btn btn-quicksearch">Go</button>
+            </div>
+        </div>
+    </div>
+
+    @RenderSection("featured", required: false)
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="main-content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <footer class="container-fluid">
+        <div class="content-wrapper row-fluid">
+            <div class="span4"></div>
+            <div class="span4 text-center">
+                <p>&copy; @DateTime.Now.Year - ALS Tribology</p>
+            </div>
+            <div class="span4">
+                <div class="pull-right">
+                    Logged on as @User.Identity.Name
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/js/jquery")
+    @Scripts.Render("~/js/bootstrap")
+    @Scripts.Render("~/js/tools")
+    @Scripts.Render("~/js/datatables")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+<script>
+    $(function () {
+        $(".btn-quicksearch").click(function () {
+            location.href = "/home/details/" + $("#q").val();
+        });
+    });
+
+</script>

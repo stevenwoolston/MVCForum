@@ -1,0 +1,6 @@
+﻿/*  Only put stuff in here that is SPECIFIC to IE 
+    This stylesheet appears after all others so anything in this stylesheet will overwrite others (only for IE though)    
+*/
+.dataTable th {
+	padding-top: 0px;
+}
